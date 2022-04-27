@@ -28,8 +28,11 @@ const next = (currentUrl) => {
   const currentUrlIndex = urls.findIndex(url => url.url === currentUrl) // currentUrl : next 함수의 인자로 전달되는 URL 주소
   console.log(urls[currentUrlIndex]) // next 함수를 호출한 라우트 핸들러
   const nextRouter = currentUrlIndex + 1 < urls.length ? urls[currentUrlIndex+1] : null
-  console.log('nextUrl: ', nextRouter) 
-  nextRouter && nextRouter.callback(req, res) // next 함수를 호출한 라우트 핸들러 다음 순서의 핸들러 호출
+  console.log('nextUrl: ', nextRouter) // next 함수를 호출한 라우트 핸들러 다음 순서의 핸들러
+  nextRouter && 
+  (nextRouter.callback.length === 3 ?  // 라우트 핸들러 파라미터 갯수에 따라 다르게 실행함
+  	nextRouter.callback(req, res, next) 
+  : nextRouter.callback(req, res) ) // next 함수를 호출한 라우트 핸들러 다음 순서의 핸들러 실행
   return
 }
 
@@ -65,7 +68,8 @@ app.post('/create', (req, res) => {
   next && next('/create')
 })
 app.put('/update', (req, res) => {
-  res.send('<h1>This is UPDATE page !</h1>')
+  // res.send('<h1>This is UPDATE page !</h1>')
+  next && next('/update')
 })
 app.delete('/delete', (req, res) => {
   res.send('<h1>This is DELETE page !</h1>')
