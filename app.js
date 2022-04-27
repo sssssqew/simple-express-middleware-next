@@ -26,7 +26,7 @@ const res = {
 
 const next = (currentUrl) => {
   const currentUrlIndex = urls.findIndex(url => url.url === currentUrl) // currentUrl : next 함수의 인자로 전달되는 URL 주소
-  console.log(urls[currentUrlIndex])
+  console.log(urls[currentUrlIndex]) // next 함수를 호출한 라우트 핸들러
   const nextRouter = currentUrlIndex + 1 < urls.length ? urls[currentUrlIndex+1] : null
   console.log('nextUrl: ', nextRouter) 
   nextRouter && nextRouter.callback(req, res) // next 함수를 호출한 라우트 핸들러 다음 순서의 핸들러 호출
